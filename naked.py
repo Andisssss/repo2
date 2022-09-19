@@ -4,15 +4,31 @@ import datetime
 import time
 import yaml
 
+
 from datetime import datetime
+from configparser import ConfigParser
+
 print('Asteroid processing service')
 
 # Initiating and reading config values
 print('Loading configuration from file')
+try:
+		config = ConfigParser()
+		config.read('config.ini')
 
+		nasa_api_key = config.get('nasa', 'api_key')
+		nasa_api_url = config.get('nasa', 'api_url')
+
+		mysql_config_mysql_host = config.get('mysql_config', 'mysql_host')
+		mysql_config_mysql_db = config.get('mysql_config', 'mysql_db')
+		mysql_config_mysql_user = config.get('mysql_config', 'mysql_user')
+		mysql_config_mysql_pass = config.get('mysql_config', 'mysql_pass')
+
+except:
+		logger.exception('')
+print('DONE')
 #API key data for unique access
-nasa_api_key = "L4FrKae520fCsr5I6RDjwCSyTamw8wtqVeohkDc6"
-nasa_api_url = "https://api.nasa.gov/neo/"
+
 
 # Getting todays date
 dt = datetime.now()
