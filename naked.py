@@ -3,6 +3,8 @@ import json
 import datetime
 import time
 import yaml
+import logging
+import logging.config
 
 
 from datetime import datetime
@@ -13,21 +15,30 @@ print('Asteroid processing service')
 # Initiating and reading config values
 print('Loading configuration from file')
 try:
-		config = ConfigParser()
-		config.read('config.ini')
+	config = ConfigParser()
+	config.read('config.ini')
 
-		nasa_api_key = config.get('nasa', 'api_key')
-		nasa_api_url = config.get('nasa', 'api_url')
+	nasa_api_key = config.get('nasa', 'api_key')
+	nasa_api_url = config.get('nasa', 'api_url')
 
-		mysql_config_mysql_host = config.get('mysql_config', 'mysql_host')
-		mysql_config_mysql_db = config.get('mysql_config', 'mysql_db')
-		mysql_config_mysql_user = config.get('mysql_config', 'mysql_user')
-		mysql_config_mysql_pass = config.get('mysql_config', 'mysql_pass')
+	mysql_config_mysql_host = config.get('mysql_config', 'mysql_host')
+	mysql_config_mysql_db = config.get('mysql_config', 'mysql_db')
+	mysql_config_mysql_user = config.get('mysql_config', 'mysql_user')
+	mysql_config_mysql_pass = config.get('mysql_config', 'mysql_pass')
 
 except:
-		logger.exception('')
+	logger.exception('')
 print('DONE')
 #API key data for unique access
+
+# Loading logging configuration
+with open('./log_worker.yaml', 'r') as stream:
+	log_config = yaml.safe_load(stream)
+
+logging.config.dictConfig(log_config)
+
+	# Creating logger
+logger = logging.getLogger('root')
 
 
 # Getting todays date
